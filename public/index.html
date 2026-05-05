@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlyTicket - Uçak Bileti</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-plane"></i>
+                    <span>FlyTicket</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active">Ana Sayfa</a>
+                    <a href="#" class="nav-link" id="adminLink">Admin <i class="fas fa-user-shield"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>✈️ Hayalinizdeki Uçuşu Bulun</h1>
+            <p>Türkiye'nin 81 şehrinde en uygun uçak biletleri</p>
+        </div>
+        
+        <!-- Arama Formu -->
+        <form class="search-form" id="searchForm">
+            <div class="form-group">
+                <label><i class="fas fa-plane-departure"></i> Kalkış</label>
+                <select id="fromCity" required>
+                    <option value="">Şehir seçin...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-plane-arrival"></i> Varış</label>
+                <select id="toCity" required>
+                    <option value="">Şehir seçin...</option>
+                </select>
+            </div>
+            <div class="form-group full-width">
+                <label><i class="fas fa-calendar-alt"></i> Tarih</label>
+                <input type="date" id="departureDate" required>
+            </div>
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i> Uçuş Ara
+            </button>
+        </form>
+    </section>
+
+    <!-- Uçuş Sonuçları -->
+    <section class="flights-section" id="flightsSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Bulunan Uçuşlar</h2>
+                <span id="flightCount" class="flight-count">0 uçuş bulundu</span>
+            </div>
+            <div class="flights-grid" id="flightsGrid">
+                <!-- Uçuş kartları buraya gelecek -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading -->
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Uçuşlar yükleniyor...</p>
+    </div>
+
+    <!-- Modal - Booking -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-ticket-alt"></i> Bilet Al</h2>
+            <form id="bookingForm">
+                <input type="hidden" id="selectedFlightId">
+                <div class="form-group">
+                    <label>Ad *</label>
+                    <input type="text" id="passengerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Soyad *</label>
+                    <input type="text" id="passengerSurname" required>
+                </div>
+                <div class="form-group">
+                    <label>E-posta *</label>
+                    <input type="email" id="passengerEmail" required>
+                </div>
+                <button type="submit" class="book-btn">Bileti Al <i class="fas fa-check"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <h2>Biletiniz Alındı!</h2>
+            <p>E-posta adresinize e-ticket gönderildi.</p>
+            <button onclick="closeSuccess()" class="success-btn">Tamam</button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

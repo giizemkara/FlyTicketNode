@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlyTicket - Yönetim Paneli</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container { max-width: 1200px; margin: 100px auto 50px; padding: 0 20px; }
+        .admin-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .logout-btn { background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body style="background: #f8f9fa;">
+    
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-plane-circle-check"></i>
+                    <span>FlyTicket Yönetim</span>
+                </div>
+                <div class="user-info" style="color: white; display: flex; align-items: center; gap: 1rem;">
+                    <span><i class="fas fa-user-shield"></i> Admin</span>
+                    <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Çıkış</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <!-- Uçuş Ekleme Formu -->
+        <div class="admin-card">
+            <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-plus-circle"></i> Yeni Uçuş Ekle</h2>
+            <form id="addFlightForm">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Kalkış Şehri</label>
+                        <select id="flightFrom" required><option value="">Yükleniyor...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Varış Şehri</label>
+                        <select id="flightTo" required><option value="">Yükleniyor...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kalkış Zamanı</label>
+                        <input type="datetime-local" id="flightDeparture" required style="width: 100%;">
+                    </div>
+                    <div class="form-group">
+                        <label>Varış Zamanı</label>
+                        <input type="datetime-local" id="flightArrival" required style="width: 100%;">
+                    </div>
+                    <div class="form-group">
+                        <label>Bilet Fiyatı (₺)</label>
+                        <input type="number" id="flightPrice" min="0" required style="width: 100%;">
+                    </div>
+                    <div class="form-group">
+                        <label>Kapasite (Koltuk)</label>
+                        <input type="number" id="flightSeats" min="20" max="300" value="150" required style="width: 100%;">
+                    </div>
+                </div>
+                <button type="submit" class="book-btn" style="margin-top: 1.5rem; width: auto;"><i class="fas fa-save"></i> Uçuşu Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin işlevleri için yazacağımız JS dosyası -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
