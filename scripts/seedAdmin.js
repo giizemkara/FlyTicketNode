@@ -3,29 +3,29 @@ const Admin = require('../models/Admin');
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('✅ MongoDB bağlı'))
-    .catch(err => console.error('❌ MongoDB hata:', err));
+    .then(() => console.log('Connected to MongoDB!'))
+    .catch(err => console.error('MongoDB error:', err));
 
 async function seedAdmin() {
     try {
-        console.log('🧹 Eski admin siliniyor...');
-        await Admin.deleteMany({}); // Önce sil
+        console.log('Old admin users are being deleted...');
+        await Admin.deleteMany({}); 
         
-        console.log('👤 Yeni admin oluşturuluyor...');
+        console.log('Creating new admin user...');
         const admin = await Admin.create({
             username: 'admin',
             password: 'admin123'
         });
         
-        console.log('🎉 ADMIN HAZIR!');
+        console.log('Admin user created successfully!');
         console.log('========================');
-        console.log('👤 Kullanıcı adı: admin');
-        console.log('🔑 Şifre: admin123');
-        console.log('📱 Login: http://localhost:3000/login.html');
+        console.log('Username: admin');
+        console.log('Password: admin123');
+        console.log('Login: http://localhost:3000/login.html');
         console.log('========================');
         process.exit(0);
     } catch (error) {
-        console.error('❌ HATA:', error.message);
+        console.error('Error:', error.message);
         process.exit(1);
     }
 }

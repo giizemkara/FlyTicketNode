@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlyTicket - Yönetim Paneli</title>
+    <title>FlyTicket - Administration</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,35 @@
         .admin-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1); margin-bottom: 2rem; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         .logout-btn { background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        .data-table th { background: #f8f9fa; font-weight: 600; color: #555; }
+        .btn-sm { padding: 0.4rem 0.8rem; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9rem; transition: 0.3s; }
+        .btn-sm:hover { opacity: 0.8; transform: translateY(-2px); }
+        .btn-edit { background: #ffc107; color: #000; margin-right: 0.5rem; }
+        .btn-delete { background: #dc3545; color: white; }
     </style>
+    <style>
+        .past-flight {
+            background-color: #f8f9fa !important;
+            opacity: 0.75;
+        }
+        .badge-completed {
+            display: inline-block;
+            background-color: #e2e6ea;
+            color: #6c757d;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 10px;
+            vertical-align: middle;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
 </head>
 <body style="background: #f8f9fa;">
     
@@ -20,12 +48,12 @@
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
-                    <i class="fas fa-plane-circle-check"></i>
-                    <span>FlyTicket Yönetim</span>
+                    <i class="fa-solid fa-plane-departure"></i>
+                    <span>FlyTicket Management</span>
                 </div>
                 <div class="user-info" style="color: white; display: flex; align-items: center; gap: 1rem;">
                     <span><i class="fas fa-user-shield"></i> Admin</span>
-                    <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Çıkış</button>
+                    <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 </div>
             </div>
         </nav>
@@ -34,40 +62,105 @@
     <div class="admin-container">
         <!-- Uçuş Ekleme Formu -->
         <div class="admin-card">
-            <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-plus-circle"></i> Yeni Uçuş Ekle</h2>
+            <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-plus-circle"></i> Add New Flight</h2>
             <form id="addFlightForm">
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>Kalkış Şehri</label>
-                        <select id="flightFrom" required><option value="">Yükleniyor...</option></select>
+                        <label>Departure City</label>
+                        <select id="flightFrom" required><option value="">Loading...</option></select>
                     </div>
                     <div class="form-group">
-                        <label>Varış Şehri</label>
-                        <select id="flightTo" required><option value="">Yükleniyor...</option></select>
+                        <label>Arrival City</label>
+                        <select id="flightTo" required><option value="">Loading...</option></select>
                     </div>
                     <div class="form-group">
-                        <label>Kalkış Zamanı</label>
+                        <label>Departure Time</label>
                         <input type="datetime-local" id="flightDeparture" required style="width: 100%;">
                     </div>
                     <div class="form-group">
-                        <label>Varış Zamanı</label>
+                        <label>Arrival Time</label>
                         <input type="datetime-local" id="flightArrival" required style="width: 100%;">
                     </div>
                     <div class="form-group">
-                        <label>Bilet Fiyatı (₺)</label>
+                        <label>Ticket Price (₺)</label>
                         <input type="number" id="flightPrice" min="0" required style="width: 100%;">
                     </div>
                     <div class="form-group">
-                        <label>Kapasite (Koltuk)</label>
+                        <label>Capacity (Seats)</label>
                         <input type="number" id="flightSeats" min="20" max="300" value="150" required style="width: 100%;">
                     </div>
                 </div>
-                <button type="submit" class="book-btn" style="margin-top: 1.5rem; width: auto;"><i class="fas fa-save"></i> Uçuşu Kaydet</button>
+                <button type="submit" class="book-btn" style="margin-top: 1.5rem; width: auto;"><i class="fas fa-save"></i> Save Flight</button>
+            </form>
+        </div>
+        <!-- Mevcut Uçuşlar Tablosu -->
+        <div class="admin-card" style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-list"></i> Current Flights</h2>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Flight Code</th>
+                            <th>Route</th>
+                            <th>Departure & Arrival</th>
+                            <th>Price</th>
+                            <th>Seats (Available/Total)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flightsTableBody">
+                        <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Satılan Biletler Tablosu -->
+        <div class="admin-card" style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-ticket-alt" style="color: #667eea;"></i> Sold Tickets</h2>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Passenger Name</th>
+                            <th>Email</th>
+                            <th>Flight Route</th>
+                            <th>Purchase Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ticketsTableBody">
+                        <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Uçuş Düzenleme Modalı -->
+    <div class="modal" id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center;">
+        <div class="modal-content" style="background: white; padding: 2.5rem; border-radius: 15px; width: 90%; max-width: 450px; position: relative;">
+            <span class="close" onclick="closeEditModal()" style="position: absolute; right: 1.5rem; top: 1.5rem; font-size: 1.8rem; cursor: pointer; color: #666;">&times;</span>
+            <h2 style="margin-bottom: 1.5rem; color: #333;"><i class="fas fa-edit" style="color: #ffc107;"></i> Edit Flight</h2>
+            
+            <form id="editFlightForm">
+                <input type="hidden" id="editFlightId">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Ticket Price (₺)</label>
+                    <input type="number" id="editPrice" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Departure Time</label>
+                    <input type="datetime-local" id="editDeparture" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label>Arrival Time</label>
+                    <input type="datetime-local" id="editArrival" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <button type="submit" style="width: 100%; padding: 1rem; background: #ffc107; color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1.1rem;">Save Changes</button>
             </form>
         </div>
     </div>
-
     <!-- Admin işlevleri için yazacağımız JS dosyası -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/admin.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     // UI loading
     const btn = document.querySelector('.login-btn');
     const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Giriş yapılıyor...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     btn.disabled = true;
     
     try {
@@ -21,16 +21,16 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         
         if (response.ok) {
             // Başarılı giriş
-            showMessage('✅ Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+            showMessage('Login successful! You are being redirected...', 'success');
             localStorage.setItem('adminToken', result.token);
             setTimeout(() => {
                 window.location.href = '/admin.html';
             }, 1500);
         } else {
-            showMessage('❌ ' + result.error, 'error');
+            showMessage('Error: ' + result.error, 'error');
         }
     } catch (error) {
-        showMessage('❌ Bağlantı hatası! Server çalışıyor mu?', 'error');
+        showMessage('Connection error! Is the server running?', 'error');
     } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
@@ -47,7 +47,6 @@ function showMessage(text, type) {
         errorDiv.remove();
     }, 4000);
 }
-
 // Enter tuşu
 document.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {

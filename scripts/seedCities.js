@@ -1,4 +1,3 @@
-// Bu dosyayı çalıştırarak 81 şehri ekleyebilirsin
 const mongoose = require('mongoose');
 const City = require('../models/City');
 require('dotenv').config();
@@ -28,13 +27,13 @@ async function seedCities() {
                     city_id: `CT${String(turkishCities.indexOf(city) + 1).padStart(2, '0')}`,
                     city_name: city
                 });
-                console.log(`✅ ${city} eklendi`);
+                console.log(`${city} loaded!`);
             }
         }
-        console.log('🎉 Tüm şehirler eklendi!');
+        console.log('All cities have been loaded successfully!');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Hata:', error);
+        console.error('Error:', error);
     }
 }
 

@@ -7,8 +7,8 @@ mongoose.connect(process.env.MONGODB_URI);
 
 async function cleanAndSeed() {
     try {
-        console.log('🧹 Mevcut uçuşlar siliniyor...');
-        await Flight.deleteMany({}); // TÜM uçuşları sil
+        console.log('Old flights are being deleted...');
+        await Flight.deleteMany({});
         
         const sampleFlights = [
             {
@@ -50,7 +50,7 @@ async function cleanAndSeed() {
             const toCity = await City.findOne({ city_name: f.to_city });
             
             if (!fromCity || !toCity) {
-                console.log(`❌ ${f.from_city} veya ${f.to_city} bulunamadı!`);
+                console.log(`❌ ${f.from_city} or ${f.to_city} not found!`);
                 continue;
             }
             
@@ -64,14 +64,14 @@ async function cleanAndSeed() {
                 seats_total: f.seats_total,
                 seats_available: f.seats_available
             });
-            console.log(`✅ ${f.flight_id} eklendi: ${f.from_city} → ${f.to_city}`);
+            console.log(`✅ ${f.flight_id} added: ${f.from_city} → ${f.to_city}`);
         }
         
-        console.log('🎉 4 uçuş başarıyla eklendi!');
+        console.log('4 flights added successfully!');
         console.log('🔍 Test: http://localhost:3000/api/flights');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Hata:', error.message);
+        console.error('Error:', error.message);
         process.exit(1);
     }
 }

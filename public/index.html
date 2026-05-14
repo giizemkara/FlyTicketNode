@@ -3,55 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlyTicket - Uçak Bileti</title>
+    <title>FlyTicket - Air Ticket</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .plane-body {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 50px 50px 10px 10px;
+            border: 2px solid #e1e5e9;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .seat-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: 2px solid #667eea;
+            border-radius: 8px 8px 4px 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #667eea;
+            transition: 0.3s;
+        }
+        .seat:hover {
+            background: #e0e7ff;
+        }
+        .seat.selected {
+            background: #667eea !important;
+            color: white !important;
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background-color: #e2e8f0 !important; 
+            color: #a0aec0 !important;
+            cursor: not-allowed !important;
+            border: 1px solid #cbd5e0 !important;
+            transform: none !important; 
+        }
+        .aisle {
+            width: 20px; 
+        }
+    </style>
+</head>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
-                    <i class="fas fa-plane"></i>
+                    <i class="fa-solid fa-plane"></i>
                     <span>FlyTicket</span>
                 </div>
                 <div class="nav-links">
-                    <a href="#" class="nav-link active">Ana Sayfa</a>
+                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link" onclick="document.getElementById('ticketSearchModal').style.display='flex'"><i class="fas fa-search"></i> My Bookings</a>
+                    
+                    <a href="#" class="nav-link" id="navLoginBtn" onclick="app.openAuthModal()"><i class="fas fa-user"></i> Login / Sign Up</a>
+                    <div id="navUserProfile" style="display: none; align-items: center; gap: 10px;">
+                        <span id="navUserName" style="font-weight: 600; color: #667eea;"></span>
+                        <a href="#" class="nav-link" onclick="app.logoutUser()" style="color: #dc3545;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                    
                     <a href="#" class="nav-link" id="adminLink">Admin <i class="fas fa-user-shield"></i></a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>✈️ Hayalinizdeki Uçuşu Bulun</h1>
-            <p>Türkiye'nin 81 şehrinde en uygun uçak biletleri</p>
+            <h1>⌯✈︎ Find Your Dream Flight</h1>
+            <p>Find the best flight tickets across 81 cities in Turkey</p>
         </div>
         
         <!-- Arama Formu -->
         <form class="search-form" id="searchForm">
             <div class="form-group">
-                <label><i class="fas fa-plane-departure"></i> Kalkış</label>
+                <label><i class="fas fa-plane-departure"></i> Departure</label>
                 <select id="fromCity" required>
-                    <option value="">Şehir seçin...</option>
+                    <option value="">Select a city...</option>
                 </select>
             </div>
             <div class="form-group">
-                <label><i class="fas fa-plane-arrival"></i> Varış</label>
+                <label><i class="fas fa-plane-arrival"></i> Arrival</label>
                 <select id="toCity" required>
-                    <option value="">Şehir seçin...</option>
+                    <option value="">Select a city...</option>
                 </select>
             </div>
             <div class="form-group full-width">
-                <label><i class="fas fa-calendar-alt"></i> Tarih</label>
+                <label><i class="fas fa-calendar-alt"></i> Date</label>
                 <input type="date" id="departureDate" required>
             </div>
             <button type="submit" class="search-btn">
-                <i class="fas fa-search"></i> Uçuş Ara
+                <i class="fas fa-search"></i> Search Flights
             </button>
         </form>
     </section>
@@ -60,8 +116,8 @@
     <section class="flights-section" id="flightsSection" style="display: none;">
         <div class="container">
             <div class="section-header">
-                <h2><i class="fas fa-list"></i> Bulunan Uçuşlar</h2>
-                <span id="flightCount" class="flight-count">0 uçuş bulundu</span>
+                <h2><i class="fas fa-list"></i> Found Flights</h2>
+                <span id="flightCount" class="flight-count">0 flights found</span>
             </div>
             <div class="flights-grid" id="flightsGrid">
                 <!-- Uçuş kartları buraya gelecek -->
@@ -72,43 +128,167 @@
     <!-- Loading -->
     <div class="loading" id="loading" style="display: none;">
         <div class="spinner"></div>
-        <p>Uçuşlar yükleniyor...</p>
+        <p>Searching for flights...</p>
     </div>
 
     <!-- Modal - Booking -->
     <div class="modal" id="bookingModal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-ticket-alt"></i> Bilet Al</h2>
+            <h2><i class="fas fa-ticket-alt"></i> Book Ticket</h2>
             <form id="bookingForm">
                 <input type="hidden" id="selectedFlightId">
                 <div class="form-group">
-                    <label>Ad *</label>
+                    <label>First Name *</label>
                     <input type="text" id="passengerName" required>
                 </div>
                 <div class="form-group">
-                    <label>Soyad *</label>
+                    <label>Last Name *</label>
                     <input type="text" id="passengerSurname" required>
                 </div>
                 <div class="form-group">
-                    <label>E-posta *</label>
+                    <label>Email *</label>
                     <input type="email" id="passengerEmail" required>
                 </div>
-                <button type="submit" class="book-btn">Bileti Al <i class="fas fa-check"></i></button>
+                <button type="submit" class="book-btn">Book Ticket <i class="fas fa-check"></i></button>
             </form>
         </div>
     </div>
+    <div class="modal" id="seatModal" style="display: none; z-index: 2400;">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <span class="close" onclick="document.getElementById('seatModal').style.display='none'">&times;</span>
+            <h2><i class="fas fa-plane" style="color: #667eea;"></i> Select Your Seat</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">Click on an available seat to select it.</p>
+            
+            <div class="plane-body" id="seatMap">
+                </div>
 
-    <!-- Success Modal -->
-    <div class="success-modal" id="successModal">
-        <div class="success-content">
-            <i class="fas fa-check-circle"></i>
-            <h2>Biletiniz Alındı!</h2>
-            <p>E-posta adresinize e-ticket gönderildi.</p>
-            <button onclick="closeSuccess()" class="success-btn">Tamam</button>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: space-around; font-size: 0.9rem;">
+                <div><div class="seat" style="width:20px; height:20px; display:inline-block; vertical-align:middle;"></div> Available</div>
+                <div><div class="seat selected" style="width:20px; height:20px; display:inline-block; vertical-align:middle;"></div> Selected</div>
+            </div>
+
+            <input type="hidden" id="selectedSeatNumber">
+            <button class="book-btn" onclick="app.confirmSeatAndPay()" style="width: 100%; margin-top: 2rem;">Continue to Payment <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
+    <!-- Modal - Payment -->
+    <div class="modal" id="paymentModal" style="display: none; z-index: 2500;">
+        <div class="modal-content" style="max-width: 400px; padding: 2rem;">
+            <span class="close" onclick="app.closePaymentModal()">&times;</span>
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <i class="fas fa-credit-card" style="font-size: 2.5rem; color: #667eea; margin-bottom: 0.5rem;"></i>
+                <h2 style="font-size: 1.5rem; color: #333;">Secure Payment</h2>
+                <div style="color: #666; font-size: 0.9rem;">Amount to Pay: <strong id="paymentAmountDisplay" style="color: #333; font-size: 1.1rem;">0 ₺</strong></div>
+            </div>
+            
+            <form id="paymentForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="FIRST LAST" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; text-transform: uppercase;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; letter-spacing: 2px;">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Expiration Date (MM/YY)</label>
+                        <input type="text" id="cardExpiry" placeholder="12/26" maxlength="5" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="password" id="cardCvv" placeholder="***" maxlength="3" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                    </div>
+                </div>
+                <button type="submit" class="book-btn" style="width: 100%;"><i class="fas fa-lock"></i> Complete Payment</button>
+            </form>
+        </div>
+    </div>
+    <!--Login/Register Modalı -->
+    <div class="modal" id="authModal" style="display: none; z-index: 3000;">
+        <div class="modal-content" style="max-width: 400px; padding: 2rem;">
+            <span class="close" onclick="app.closeAuthModal()">&times;</span>
+            
+            <div style="display: flex; justify-content: space-around; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">
+                <h3 id="tabLogin" style="cursor: pointer; color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 5px;" onclick="app.switchAuthTab('login')">Login</h3>
+                <h3 id="tabRegister" style="cursor: pointer; color: #999; padding-bottom: 5px;" onclick="app.switchAuthTab('register')">Sign Up</h3>
+            </div>
 
+            <form id="loginForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <button type="submit" class="book-btn" style="width: 100%;"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+
+            <form id="registerForm" style="display: none;">
+                <div style="display: flex; gap: 10px; margin-bottom: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>First Name</label>
+                        <input type="text" id="regName" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Last Name</label>
+                        <input type="text" id="regSurname" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" required minlength="6" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <button type="submit" class="book-btn" style="width: 100%; background: #28a745;"><i class="fas fa-user-plus"></i> Create Account</button>
+            </form>
+        </div>
+    </div>
+    <!-- Bilet Sorgulama Modalı -->
+    <div class="modal" id="ticketSearchModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="document.getElementById('ticketSearchModal').style.display='none'">&times;</span>
+            <h2><i class="fas fa-search" style="color: #667eea;"></i> Ticket Inquiry</h2>
+            <div class="form-group">
+                <label>Email Address</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="email" id="searchEmail" placeholder="The email address you used when booking the ticket" style="flex: 1;">
+                    <button onclick="app.findMyTickets()" class="search-btn" style="padding: 0 1.5rem; border-radius: 12px;">Inquire</button>
+                </div>
+            </div>
+            <!-- Sonuçlar buraya gelecek -->
+            <div id="myTicketsResult" style="margin-top: 2rem; max-height: 300px; overflow-y: auto;"></div>
+        </div>
+    </div>
+    <footer style="background-color: #1a202c; color: #a0aec0; padding: 4rem 2rem 2rem; text-align: center; margin-top: 5rem; border-top: 5px solid #667eea;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 1rem;">
+                <i class="fas fa-plane-departure" style="color: #667eea;"></i> FlyTicket
+            </div>
+            
+            <p style="margin-bottom: 0.5rem; font-size: 1.1rem;">
+                This project was developed as the Full Stack Final Project for the 
+                <strong style="color: white;">CENG-3502: Dynamic Web Programming</strong> course.
+            </p>
+            
+            <p style="margin-bottom: 2rem; font-size: 1rem;">
+                <i class="fas fa-university"></i> Muğla Sıtkı Koçman University | Developed by <strong style="color: white;">Gizem Kara</strong> &copy; 2026
+            </p>
+            
+            <div>
+                <a href="https://github.com/giizemkara/FlyTicketNode" target="_blank" style="display: inline-flex; align-items: center; background-color: #2d3748; color: white; padding: 0.8rem 2rem; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <i class="fab fa-github" style="font-size: 1.2rem; margin-right: 10px;"></i> View Source Code on GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

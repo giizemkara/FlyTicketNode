@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const { from, to, date } = req.query;
-        let query = { seats_available: { $gt: 0 } };
+        let query = {};
 
         if (from) {
             const fromCity = await City.findOne({ city_name: from });
@@ -19,10 +19,10 @@ router.get('/', async (req, res) => {
             if (toCity) query.to_city = toCity._id;
         }
         if (date) {
-            const startDate = new Date(date);
-            const endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 1);
-            query.departure_time = { $gte: startDate, $lt: endDate };
+            const startDate = new Date(`${date}T00:00:00+03:00`);
+            const endDate = new Date(`${date}T23:59:59+03:00`);
+            
+            query.departure_time = { $gte: startDate, $lte: endDate };
         }
 
         const flights = await Flight.find(query)
@@ -45,8 +45,6 @@ router.get('/cities', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
-
 
 // Admin: Yeni uçuş oluştur
 router.post('/', async (req, res) => {
@@ -81,7 +79,7 @@ router.post('/', async (req, res) => {
         const flight = new require('../models/Flight')(flightData);
         await flight.save();
 
-        res.json({ message: '✅ Uçuş başarıyla oluşturuldu!', flight });
+        res.json({ message: 'Flight added successfully!', flight });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

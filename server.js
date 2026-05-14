@@ -17,11 +17,12 @@ app.use(express.static('public'));
 
 // MongoDB Bağlantısı
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('✅ MongoDB bağlantısı başarılı!'))
-    .catch(err => console.error('❌ MongoDB bağlantı hatası:', err));
+    .then(() => console.log('Connected to MongoDB!'))
+    .catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Routes
 app.use('/api/flights', flightRoutes);
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/admin', adminRoutes);
 
@@ -31,5 +32,5 @@ app.get(/.*/, (req, res) => {
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server http://localhost:${PORT} adresinde çalışıyor!`);
+    console.log(`Server works at: "http://localhost:${PORT}"`);
 });
