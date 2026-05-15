@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "6a01c5740fa367a6b778e349"
+  },
+  "ticket_id": "TK1778500980326",
+  "passenger_name": "Gizem",
+  "passenger_surname": "Kara",
+  "passenger_email": "gizemkara.ar@gmail.com",
+  "flight_id": {
+    "$oid": "6a01b9f838e1925fb3899fe7"
+  },
+  "seat_number": "1A",
+  "createdAt": {
+    "$date": "2026-05-11T12:03:00.330Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-11T12:03:00.330Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a063f856ed964eb1fc521f6"
+  },
+  "ticket_id": "TK1778794373659",
+  "passenger_name": "Gizem",
+  "passenger_surname": "Kara",
+  "passenger_email": "gizemkara.ar@gmail.com",
+  "flight_id": {
+    "$oid": "6a063f4f6ed964eb1fc521f5"
+  },
+  "seat_number": "5D",
+  "createdAt": {
+    "$date": "2026-05-14T21:32:53.660Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:32:53.660Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a06414eb1497fb4378ac077"
+  },
+  "ticket_id": "TK1778794830264",
+  "passenger_name": "test",
+  "passenger_surname": "test",
+  "passenger_email": "test@gmail.com",
+  "flight_id": {
+    "$oid": "6a063f4f6ed964eb1fc521f5"
+  },
+  "seat_number": "4C",
+  "createdAt": {
+    "$date": "2026-05-14T21:40:30.273Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:40:30.273Z"
+  },
+  "__v": 0
+}]

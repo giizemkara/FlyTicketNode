@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "69fe21ecb6e04e0e50aa1f77"
+  },
+  "name": "test",
+  "surname": "test",
+  "email": "test1@gmail.com",
+  "password": "$2b$10$zsvFjZR9147d4oOeZpFFf.MLsZShx7cRUph8qRFXR/x3z/Uipi6Wq",
+  "createdAt": {
+    "$date": "2026-05-08T17:48:28.668Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T17:48:28.668Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe2a5b3012243094e83d4b"
+  },
+  "name": "Gizem",
+  "surname": "Kara",
+  "email": "gizemkara.ar@gmail.com",
+  "password": "$2b$10$pT2W/N5aODaGBG6DetiOeO.fo6dujBerspQa0AhjAn8dTvKXFXbWO",
+  "createdAt": {
+    "$date": "2026-05-08T18:24:27.742Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T18:24:27.742Z"
+  },
+  "__v": 0
+}]

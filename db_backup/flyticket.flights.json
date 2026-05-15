@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "6a063a199546ee3190784bfd"
+  },
+  "flight_id": "F001",
+  "from_city": {
+    "$oid": "69f8e2be19523a4cabef906b"
+  },
+  "to_city": {
+    "$oid": "69f8e2be19523a4cabef904a"
+  },
+  "departure_time": {
+    "$date": "2026-05-04T07:00:00.000Z"
+  },
+  "arrival_time": {
+    "$date": "2026-05-04T08:30:00.000Z"
+  },
+  "price": 850,
+  "seats_total": 180,
+  "seats_available": 120,
+  "createdAt": {
+    "$date": "2026-05-14T21:09:45.413Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:09:45.413Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a063a199546ee3190784bfe"
+  },
+  "flight_id": "F002",
+  "from_city": {
+    "$oid": "69f8e2be19523a4cabef906b"
+  },
+  "to_city": {
+    "$oid": "69f8e2be19523a4cabef906c"
+  },
+  "departure_time": {
+    "$date": "2026-05-04T06:30:00.000Z"
+  },
+  "arrival_time": {
+    "$date": "2026-05-04T07:45:00.000Z"
+  },
+  "price": 720,
+  "seats_total": 150,
+  "seats_available": 100,
+  "createdAt": {
+    "$date": "2026-05-14T21:09:45.423Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:09:45.423Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a063a199546ee3190784bff"
+  },
+  "flight_id": "F003",
+  "from_city": {
+    "$oid": "69f8e2be19523a4cabef904a"
+  },
+  "to_city": {
+    "$oid": "69f8e2be19523a4cabef904b"
+  },
+  "departure_time": {
+    "$date": "2026-05-04T11:00:00.000Z"
+  },
+  "arrival_time": {
+    "$date": "2026-05-04T12:45:00.000Z"
+  },
+  "price": 950,
+  "seats_total": 200,
+  "seats_available": 180,
+  "createdAt": {
+    "$date": "2026-05-14T21:09:45.430Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:09:45.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a063a199546ee3190784c00"
+  },
+  "flight_id": "F004",
+  "from_city": {
+    "$oid": "69f8e2be19523a4cabef906b"
+  },
+  "to_city": {
+    "$oid": "69f8e2be19523a4cabef904b"
+  },
+  "departure_time": {
+    "$date": "2026-05-05T04:00:00.000Z"
+  },
+  "arrival_time": {
+    "$date": "2026-05-05T05:30:00.000Z"
+  },
+  "price": 1200,
+  "seats_total": 200,
+  "seats_available": 150,
+  "createdAt": {
+    "$date": "2026-05-14T21:09:45.437Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:09:45.437Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a063f4f6ed964eb1fc521f5"
+  },
+  "flight_id": "FL319557",
+  "from_city": {
+    "$oid": "69f8e2be19523a4cabef904b"
+  },
+  "to_city": {
+    "$oid": "69f8e2be19523a4cabef904a"
+  },
+  "departure_time": {
+    "$date": "2026-05-14T22:30:00.000Z"
+  },
+  "arrival_time": {
+    "$date": "2026-05-15T00:30:00.000Z"
+  },
+  "price": 1000,
+  "seats_total": 150,
+  "seats_available": 148,
+  "createdAt": {
+    "$date": "2026-05-14T21:31:59.569Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-14T21:40:32.851Z"
+  },
+  "__v": 0
+}]
