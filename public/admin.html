@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ticket Price (₺)</label>
-                        <input type="number" id="flightPrice" min="0" required style="width: 100%;">
+                        <input type="number" id="flightPrice" min="0" max="99999" oninput="if(this.value < 0) this.value = Math.abs(this.value); if(this.value > 99999) this.value = 99999;" required style="width: 100%;">
                     </div>
                     <div class="form-group">
                         <label>Capacity (Seats)</label>
