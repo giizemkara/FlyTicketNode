@@ -116,6 +116,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr auto;
     gap: 2rem;
     align-items: end;
+    padding: 3rem;
 }
 
 .form-group {
